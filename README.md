@@ -37,7 +37,7 @@ Run script to make the network
 ```
 
 ## Screenshots
-![Emulate_TLS](https://github.com/user-attachments/assets/8a8bb9ee-c635-403a-a794-94630c6eecb5)
+![Emulate_TLS](https://github.com/Megatrone750/Emulate-TLS-Fingerprinting-on-Network-Namespaces/blob/main/namespace.png)
 
 
 
