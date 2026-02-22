@@ -1,64 +1,78 @@
-# Emulate TLS Fingerprinting on Network Namespaces
+# Emulate TLS Fingerprinting On Network Namespaces Using Ja3/Ja3s & Mercury
 
-This project aims to provide a comprehensive tool for emulating TLS fingerprinting using network namespaces in Linux. The goal is to enable security researchers and developers to analyze and simulate various TLS configurations and behaviors.
 
-## Table of Contents
-1. [Features](#features)
-2. [Requirements](#requirements)
-3. [Installation](#installation)
-4. [Usage](#usage)
-5. [Examples](#examples)
-6. [Contributing](#contributing)
-7. [License](#license)
+## Run Locally
 
-## Features
-- **TLS Configuration Emulation**: Simulate different TLS configurations to test fingerprinting detection methods.
-- **Network Namespace Support**: Leverage Linux network namespaces to isolate traffic.
-- **Easy to Use**: Simple command-line interface for easy interaction and testing.
+Clone the project
 
-## Requirements
-- Linux Operating System (Ubuntu, CentOS, etc.)
-- Python 3.x
-- Required Python packages (see `requirements.txt`)
 
-## Installation
-To install the necessary components, run the following commands:
+Go to the project directory
+
 ```bash
-# Clone the repository
-git clone https://github.com/Megatrone750/Emulate-TLS-Fingerprinting-on-Network-Namespaces.git
-cd Emulate-TLS-Fingerprinting-on-Network-Namespaces
-
-# Install required packages
-pip install -r requirements.txt
+  cd my-project
 ```
 
-## Usage
-After installation, you can start using the tool. Below are basic commands to get started:
+Install dependencies
+
 ```bash
-# Run the application
-python main.py [options]
+  sudo apt install iperf3
+  sudo apt install openssl -y
+  sudo apt install ja3
+  sudo apt install wireshark
+
 ```
 
-### Options
-- `--help` : Display help information.
-- `--config`: Path to the TLS configuration file.
+First Go into sudo mode
 
-## Examples
-1. **Basic Usage**
-   ```bash
-   python main.py --config config.yaml
-   ```
-2. **Advanced Usage**
-   ```bash
-   python main.py --config config.yaml --verbose
-   ```
+```bash
+  sudo su
+```
 
-## Contributing
-1. Fork the project.
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`).
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`).
-4. Push to the branch (`git push origin feature/AmazingFeature`).
-5. Open a pull request.
+Run script to make the network 
+```bash
+  ./name_s.sh
+```
 
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## Screenshots
+![Emulate_TLS](https://github.com/Megatrone750/Emulate-TLS-Fingerprinting-on-Network-Namespaces/blob/main/namespace.png)
+
+
+## Running the Project
+
+open two terminal 
+
+In First Terminal go in Red bash
+
+```bash
+  ip netns exec red bash
+```
+In Second Terminal go in Blue bash
+
+```bash
+  ip netns exec blue bash
+```
+Open wireshark in Red (client) choose ethred interface start capturing packet
+
+```bash
+  wireshark 
+```
+
+Make Blue as Server using iperf at port 443 
+```bash
+  iperf3 -s -p 443
+```
+
+In Red connect to Blue (server)
+```bash
+  openssl s_client -connect 10.0.2.2:443
+```
+
+wireshark file save in .pcap file format
+
+so in this you will get client hello msg which will helpful for calculating tls fingerprint
+
+using ja3 we can calculate fingerprint
+
+```bash
+  ja3.py filename.sh
+```
